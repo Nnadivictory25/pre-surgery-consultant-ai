@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Chat } from '@ai-sdk/svelte';
-	import { ClipboardIcon, RefreshCcwIcon } from '@lucide/svelte';
+	import { ClipboardIcon, RefreshCcwIcon, PlusIcon } from '@lucide/svelte';
 	import { watch } from 'runed';
 	import { Message, MessageContent } from '$lib/components/ai-elements/message/index.js';
 	import { Action, Actions } from '$lib/components/ai-elements/action/index.js';
@@ -22,6 +22,7 @@
 	} from '$lib/components/ai-elements/prompt-input/index.js';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
+	import { Button } from '$lib/components/ui/button/index.js';
 
 	let { data }: { data: PageData } = $props();
 
@@ -37,8 +38,6 @@
 		if (textContent.trim() !== '' && status === 'idle') {
 			chat.sendMessage({ text: textContent });
 		}
-
-		// Clear the input field after submission
 		input_prompt = '';
 	};
 
@@ -50,10 +49,11 @@
 		navigator.clipboard.writeText(message);
 	};
 
-	let startNewConversation = () => {
-		// Create a new Chat instance to clear all messages
+	function startNewConversation() {
+		// Reset chat to a fresh instance, effectively starting a new chat
 		chat = new Chat({});
-	};
+		input_prompt = '';
+	}
 
 	// Watch for changes in chat status
 	watch(
@@ -81,13 +81,6 @@
 	});
 </script>
 
-<!--
-    Structure:
-    - Header : Title, New Chat Button, Dark/Light Mode Toggle
-    - Chat Messages Container
-    - Input Container
-   -->
-
 <main class="flex flex-col h-screen bg-background">
 	<!-- Header -->
 	<header class="bg-background border-b border-border px-6 h-16 shadow-sm">
@@ -97,6 +90,18 @@
 				<p class="text-xs text-muted-foreground">
 					Get personalized advice for your pre-surgery consultation.
 				</p>
+			</div>
+			<!-- New Chat Button -->
+			<div class="flex items-center gap-2">
+				<Button
+					variant="outline"
+					size="sm"
+					onclick={startNewConversation}
+					class="flex items-center gap-1"
+				>
+					<PlusIcon class="size-4" />
+					New
+				</Button>
 			</div>
 		</div>
 	</header>

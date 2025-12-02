@@ -47,6 +47,7 @@
 		"@fingerprintjs/fingerprintjs": "^5.0.1",
 		"@openrouter/ai-sdk-provider": "^1.2.8",
 		"ai": "^5.0.106",
+		"better-sqlite3": "^12.4.1",
 		"runed": "^0.31.1",
 		"svelte-adapter-bun": "^1.0.1",
 		"svelte-streamdown": "^3.0.0"

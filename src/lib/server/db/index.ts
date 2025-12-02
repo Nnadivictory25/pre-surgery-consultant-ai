@@ -1,9 +1,10 @@
 import { drizzle } from 'drizzle-orm/bun-sqlite';
 import * as schema from './schema';
+import { Database } from 'bun:sqlite';
 import { env } from '$env/dynamic/private';
 
 if (!env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
 
-const client = new (globalThis as any).Database(env.DATABASE_URL);
+const client = new Database(env.DATABASE_URL);
 
 export const db = drizzle(client, { schema });

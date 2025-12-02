@@ -1,18 +1,20 @@
 <script lang="ts">
-	import { PromptInputController, setPromptInputProvider } from "./attachments-context.svelte.js";
+	import { PromptInputController, setPromptInputProvider } from './attachments-context.svelte.js';
 
 	interface Props {
 		initialInput?: string;
 		accept?: string;
 		multiple?: boolean;
-		children?: import("svelte").Snippet;
+		children?: import('svelte').Snippet;
 	}
 
-	let { initialInput = "", accept, multiple = true, children }: Props = $props();
+	let { initialInput = '', accept, multiple = true, children }: Props = $props();
 
-	let controller = new PromptInputController(initialInput, accept, multiple);
+	let controller = $derived(new PromptInputController(initialInput, accept, multiple));
 
-	setPromptInputProvider(controller);
+	$effect(() => {
+		setPromptInputProvider(controller);
+	});
 </script>
 
 {#if children}

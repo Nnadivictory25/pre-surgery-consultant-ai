@@ -6,14 +6,7 @@ export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
 	build: {
 		minify: 'esbuild',
-		target: 'esnext',
-		rollupOptions: {
-			output: {
-				manualChunks: {
-					ui: ['bits-ui', '@lucide/svelte', 'tailwind-merge', 'clsx']
-				}
-			}
-		}
+		target: 'esnext'
 	},
 	optimizeDeps: {
 		include: ['@ai-sdk/svelte', 'ai']

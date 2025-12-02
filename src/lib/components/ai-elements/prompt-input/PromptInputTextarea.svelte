@@ -18,7 +18,12 @@
 		...props
 	}: Props = $props();
 
-	let attachments = getAttachmentsContext();
+	let attachments;
+	try {
+		attachments = getAttachmentsContext();
+	} catch {
+		// Not within a PromptInput context, attachments not available
+	}
 
 	let handleKeyDown = (e: KeyboardEvent) => {
 		if (e.key === 'Enter') {
@@ -59,7 +64,7 @@
 			}
 		}
 
-		if (files.length > 0) {
+		if (files.length > 0 && attachments) {
 			e.preventDefault();
 			attachments.add(files);
 		}

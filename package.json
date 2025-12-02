@@ -45,6 +45,7 @@
 	"dependencies": {
 		"@ai-sdk/svelte": "^3.0.106",
 		"@fingerprintjs/fingerprintjs": "^5.0.1",
+		"@libsql/client": "^0.14.0",
 		"@openrouter/ai-sdk-provider": "^1.2.8",
 		"ai": "^5.0.106",
 		"runed": "^0.31.1",

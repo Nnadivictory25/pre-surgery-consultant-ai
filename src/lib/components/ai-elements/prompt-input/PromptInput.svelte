@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { cn } from "$lib/utils";
-	import { watch } from "runed";
-	import { onMount } from "svelte";
+	import { cn } from '$lib/utils';
+	import { watch } from 'runed';
+	import { onMount } from 'svelte';
 	import {
 		AttachmentsContext,
 		setAttachmentsContext,
 		type PromptInputMessage,
-		type FileUIPart,
-	} from "./attachments-context.svelte.js";
+		type FileUIPart
+	} from './attachments-context.svelte.js';
 
 	interface Props {
 		class?: string;
@@ -18,12 +18,9 @@
 		clearOnSubmit?: boolean;
 		maxFiles?: number;
 		maxFileSize?: number; // bytes
-		onError?: (err: {
-			code: "max_files" | "max_file_size" | "accept";
-			message: string;
-		}) => void;
+		onError?: (err: { code: 'max_files' | 'max_file_size' | 'accept'; message: string }) => void;
 		onSubmit: (message: PromptInputMessage, event: SubmitEvent) => void | Promise<void>;
-		children?: import("svelte").Snippet;
+		children?: import('svelte').Snippet;
 	}
 
 	let {
@@ -43,17 +40,13 @@
 
 	let anchorRef = $state<HTMLSpanElement | null>(null);
 	let formRef = $state<HTMLFormElement | null>(null);
-	let attachmentsContext = new AttachmentsContext(
-		accept,
-		multiple,
-		maxFiles,
-		maxFileSize,
-		onError
+	let attachmentsContext = $derived(
+		new AttachmentsContext(accept, multiple, maxFiles, maxFileSize, onError)
 	);
 
 	// Find nearest form to scope drag & drop
 	onMount(() => {
-		let root = anchorRef?.closest("form");
+		let root = anchorRef?.closest('form');
 		if (root instanceof HTMLFormElement) {
 			formRef = root;
 		}
@@ -66,13 +59,13 @@
 			if (!formRef) return;
 
 			let onDragOver = (e: DragEvent) => {
-				if (e.dataTransfer?.types?.includes("Files")) {
+				if (e.dataTransfer?.types?.includes('Files')) {
 					e.preventDefault();
 				}
 			};
 
 			let onDrop = (e: DragEvent) => {
-				if (e.dataTransfer?.types?.includes("Files")) {
+				if (e.dataTransfer?.types?.includes('Files')) {
 					e.preventDefault();
 				}
 				if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
@@ -80,12 +73,12 @@
 				}
 			};
 
-			formRef.addEventListener("dragover", onDragOver);
-			formRef.addEventListener("drop", onDrop);
+			formRef.addEventListener('dragover', onDragOver);
+			formRef.addEventListener('drop', onDrop);
 
 			return () => {
-				formRef?.removeEventListener("dragover", onDragOver);
-				formRef?.removeEventListener("drop", onDrop);
+				formRef?.removeEventListener('dragover', onDragOver);
+				formRef?.removeEventListener('drop', onDrop);
 			};
 		}
 	);
@@ -97,13 +90,13 @@
 			if (!globalDrop) return;
 
 			let onDragOver = (e: DragEvent) => {
-				if (e.dataTransfer?.types?.includes("Files")) {
+				if (e.dataTransfer?.types?.includes('Files')) {
 					e.preventDefault();
 				}
 			};
 
 			let onDrop = (e: DragEvent) => {
-				if (e.dataTransfer?.types?.includes("Files")) {
+				if (e.dataTransfer?.types?.includes('Files')) {
 					e.preventDefault();
 				}
 				if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
@@ -111,12 +104,12 @@
 				}
 			};
 
-			document.addEventListener("dragover", onDragOver);
-			document.addEventListener("drop", onDrop);
+			document.addEventListener('dragover', onDragOver);
+			document.addEventListener('drop', onDrop);
 
 			return () => {
-				document.removeEventListener("dragover", onDragOver);
-				document.removeEventListener("drop", onDrop);
+				document.removeEventListener('dragover', onDragOver);
+				document.removeEventListener('drop', onDrop);
 			};
 		}
 	);
@@ -129,7 +122,7 @@
 			if (syncHiddenInput && attachmentsContext.fileInputRef) {
 				// Clear the input when items are cleared
 				if (attachmentsContext.files.length === 0) {
-					attachmentsContext.fileInputRef.value = "";
+					attachmentsContext.fileInputRef.value = '';
 				}
 			}
 		}
@@ -159,14 +152,14 @@
 
 		let form = event.currentTarget as HTMLFormElement;
 		let formData = new FormData(form);
-		let text = (formData.get("message") as string) || "";
+		let text = (formData.get('message') as string) || '';
 
 		// Convert blob URLs to data URLs asynchronously
 		let filesPromises = attachmentsContext.files.map(async ({ id, ...item }) => {
-			if (item.url && item.url.startsWith("blob:")) {
+			if (item.url && item.url.startsWith('blob:')) {
 				return {
 					...item,
-					url: await convertBlobUrlToDataUrl(item.url),
+					url: await convertBlobUrlToDataUrl(item.url)
 				};
 			}
 			return item;
@@ -177,7 +170,7 @@
 			let result = onSubmit({ text, files }, event);
 
 			// Handle both sync and async onSubmit
-			if (result && typeof result === "object" && "then" in result) {
+			if (result && typeof result === 'object' && 'then' in result) {
 				await result;
 			}
 
@@ -188,11 +181,13 @@
 			}
 		} catch (error) {
 			// Don't clear on error - user may want to retry
-			console.error("Submit failed:", error);
+			console.error('Submit failed:', error);
 		}
 	};
 
-	setAttachmentsContext(attachmentsContext);
+	$effect(() => {
+		setAttachmentsContext(attachmentsContext);
+	});
 </script>
 
 <span aria-hidden="true" class="hidden" bind:this={anchorRef}></span>
@@ -205,10 +200,7 @@
 	type="file"
 />
 <form
-	class={cn(
-		"bg-background w-full divide-y overflow-hidden rounded-xl border shadow-sm",
-		className
-	)}
+	class={cn('bg-background w-full divide-y overflow-hidden rounded-xl border shadow-sm', className)}
 	onsubmit={handleSubmit}
 	{...props}
 >

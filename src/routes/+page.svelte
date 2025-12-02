@@ -31,20 +31,6 @@
 	let chat = $derived(new Chat({ messages: data.conversation }));
 	let status = $state<ChatStatus>('idle');
 
-	// Pre-surgery preparation messages
-	let preSurgeryMessages = [
-		{
-			text: "Hello! I'm here to help you prepare for your surgery. I can provide guidance on:\n\n• **Pre-operative instructions** (fasting, medications, skin preparation)\n• **Dietary guidelines** (what to eat and avoid before surgery)\n• **Recovery expectations** (timeline, activity restrictions)\n• **Medication management** (timing, interactions)\n• **Post-operative care** (wound care, follow-up appointments)\n\nTo get started, please tell me:\n• What type of surgery are you having?\n• Your surgery date?\n• Any specific concerns or questions?\n\nI'll provide personalized advice based on your situation!",
-			type: 'pre-surgery-info'
-		}
-	];
-
-	let sendPreSurgeryMessage = (message: string) => {
-		if (status === 'idle') {
-			chat.sendMessage({ text: message });
-		}
-	};
-
 	let handleSubmit = (message: PromptInputMessage, event: SubmitEvent) => {
 		event.preventDefault();
 		const textContent = message.text || '';
@@ -112,13 +98,6 @@
 					Get personalized advice for your pre-surgery consultation.
 				</p>
 			</div>
-			<button
-				class="bg-muted hover:bg-muted/80 text-muted-foreground px-3 py-1.5 rounded-lg text-sm transition-colors"
-				onclick={startNewConversation}
-				title="Start new conversation"
-			>
-				New Chat
-			</button>
 		</div>
 	</header>
 
@@ -128,23 +107,11 @@
 			{#if chat.messages.length === 0}
 				<ConversationEmptyState
 					title="Welcome! Get personalized advice for your pre-surgery consultation."
-					description="Start a conversation by typing a message below, or choose a pre-surgery topic:"
+					description="Start a conversation by typing a message below."
 				>
 					{#snippet icon()}
 						<div class="text-3xl">👋</div>
 					{/snippet}
-
-					<!-- Pre-surgery Quick Actions -->
-					<div class="flex flex-wrap gap-2 mt-4">
-						{#each preSurgeryMessages as msg (msg)}
-							<button
-								class="bg-muted hover:bg-muted/80 text-muted-foreground px-3 py-2 rounded-lg text-sm transition-colors"
-								onclick={() => sendPreSurgeryMessage(msg.text)}
-							>
-								{msg.text}
-							</button>
-						{/each}
-					</div>
 				</ConversationEmptyState>
 			{:else}
 				<div class="space-y-4 py-4">

@@ -10,8 +10,12 @@
 </script>
 
 <Streamdown
-	class={cn('size-full [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 prose', className)}
+	class={cn(
+		'size-full [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 prose prose-gray dark:prose-invert',
+		className
+	)}
 	shikiTheme="github-light-default"
 	baseTheme="shadcn"
+	parseIncompleteMarkdown={true}
 	{...restProps}
 />

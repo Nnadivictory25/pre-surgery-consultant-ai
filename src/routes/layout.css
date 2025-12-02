@@ -126,15 +126,15 @@
 	}
 
 	.prose h1 {
-		@apply mt-8 mb-4 text-3xl font-bold;
+		@apply mt-8 mb-4 text-2xl font-bold;
 	}
 
 	.prose h2 {
-		@apply mt-6 mb-3 text-2xl font-bold;
+		@apply mt-6 mb-3 text-xl font-bold;
 	}
 
 	.prose h3 {
-		@apply mt-4 mb-2 text-xl font-bold;
+		@apply mt-4 mb-2 text-lg font-bold;
 	}
 
 	.prose p {
@@ -143,7 +143,7 @@
 
 	.prose ul,
 	.prose ol {
-		@apply mb-4 pl-6;
+		@apply mb-4 pl-3;
 	}
 
 	.prose li {

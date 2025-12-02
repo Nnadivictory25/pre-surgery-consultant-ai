@@ -106,7 +106,7 @@
 		<ConversationContent class="max-w-3xl mx-auto w-full px-4">
 			{#if chat.messages.length === 0}
 				<ConversationEmptyState
-					title="Welcome! Get personalized advice for your pre-surgery consultation."
+					title="Welcome to Pre-Surgery Consultant AI by Chinatu Emmanuel! Get personalized advice for your pre-surgery consultation."
 					description="Start a conversation by typing a message below."
 				>
 					{#snippet icon()}

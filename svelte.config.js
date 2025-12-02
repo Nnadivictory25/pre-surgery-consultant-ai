@@ -8,9 +8,7 @@ const config = {
 		adapter: adapter({
 			// Precompress static assets
 			precompress: false // Disable for faster builds
-		}),
-		// Reduce parallel compilation for better performance
-		parallel: false
+		})
 	}
 };
 

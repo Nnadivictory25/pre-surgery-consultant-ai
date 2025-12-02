@@ -10,4 +10,6 @@ COPY . .
 
 RUN chmod +x start.sh
 
+EXPOSE 4173
+
 CMD ["./start.sh"]

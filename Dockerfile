@@ -1,4 +1,4 @@
-FROM oven/bun:1 AS builder
+FROM oven/bun:1.1 AS builder
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ RUN bun run db:migrate
 
 RUN bun run build
 
-FROM oven/bun:1 AS runtime
+FROM oven/bun:1.1 AS runtime
 
 WORKDIR /app
 

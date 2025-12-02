@@ -3,5 +3,8 @@
 # Run database migration
 bun run db:migrate
 
-# Start the development server
-bun run dev
+# Build the application
+bun run build
+
+# Start the preview server
+bun run preview

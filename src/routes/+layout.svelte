@@ -30,7 +30,7 @@
 		content="Get personalized pre-surgery consultation and preparation guidance from AI. Expert advice on what to expect, dietary restrictions, and recovery tips."
 	/>
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://pre-surgery-consultant-ai.vercel.app" />
+	<meta property="og:url" content="https://pre-surgery-ai.viclabs.dev" />
 	<meta property="og:site_name" content="Pre-Surgery Consultant AI" />
 
 	<!-- Twitter Card -->

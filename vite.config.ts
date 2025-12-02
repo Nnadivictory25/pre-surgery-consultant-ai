@@ -10,13 +10,12 @@ export default defineConfig({
 		rollupOptions: {
 			output: {
 				manualChunks: {
-					vendor: ['@ai-sdk/svelte', '@openrouter/ai-sdk-provider', 'ai'],
 					ui: ['bits-ui', '@lucide/svelte', 'tailwind-merge', 'clsx']
 				}
 			}
 		}
 	},
 	optimizeDeps: {
-		include: ['@ai-sdk/svelte', '@openrouter/ai-sdk-provider', 'ai']
+		include: ['@ai-sdk/svelte', 'ai']
 	}
 });

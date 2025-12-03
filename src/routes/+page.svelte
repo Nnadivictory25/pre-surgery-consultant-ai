@@ -196,8 +196,8 @@
 											variant="outline"
 											size="default"
 											onclick={() => {
-												input_prompt = suggestion.text;
 												chat.sendMessage({ text: suggestion.text });
+												input_prompt = '';
 											}}
 											class="w-full text-left justify-start h-auto py-3 px-4 whitespace-normal"
 										>

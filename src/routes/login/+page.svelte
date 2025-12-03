@@ -21,11 +21,25 @@
 		<form method="POST" on:submit={() => (submitting = true)} class="space-y-4">
 			<div>
 				<label for="email" class="block text-sm font-medium">Email</label>
-				<input autocomplete="email" type="email" id="email" name="email" required class="w-full p-2 border rounded" />
+				<input
+					autocomplete="email"
+					type="email"
+					id="email"
+					name="email"
+					required
+					class="w-full p-2 border rounded"
+				/>
 			</div>
 			<div>
 				<label for="name" class="block text-sm font-medium">Name</label>
-				<input autocomplete="name" type="text" id="name" name="name" required class="w-full p-2 border rounded" />
+				<input
+					autocomplete="name"
+					type="text"
+					id="name"
+					name="name"
+					required
+					class="w-full p-2 border rounded"
+				/>
 			</div>
 			<div>
 				<label for="password" class="block text-sm font-medium">Password</label>

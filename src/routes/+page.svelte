@@ -25,6 +25,7 @@
 	import type { PageData } from './$types';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Popover, PopoverContent, PopoverTrigger } from '$lib/components/ui/popover/index.js';
+	import SidebarSheet from '$lib/components/SidebarSheet.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -33,6 +34,7 @@
 	let loading = $state(true);
 	let email = $state(data.email || '');
 	let name = $state(data.name || '');
+	let sidebarOpen = $state(false);
 
 	const suggestions = [
 		{ text: 'What should I eat the day before my surgery?' },
@@ -121,16 +123,18 @@
 {:else if loggedIn}
 	<main class="flex flex-col h-screen bg-background">
 		<!-- Header -->
-		<header class="bg-background border-b border-border px-6 h-16 shadow-sm">
+		<header class="bg-background border-b border-border px-4 sm:px-6 h-16 shadow-sm">
 			<div class="max-w-4xl mx-auto flex items-center justify-between h-full">
-				<div>
-					<h1 class="text-xl font-semibold text-foreground">Pre-Surgery Consultant AI</h1>
-					<p class="text-xs text-muted-foreground">
+				<div class="flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-0">
+					<h1 class="text-lg sm:text-xl font-semibold text-foreground text-center sm:text-left">
+						Pre-Surgery Consultant AI
+					</h1>
+					<p class="text-xs text-muted-foreground text-center sm:text-left hidden sm:block">
 						Get personalized advice for your pre-surgery consultation.
 					</p>
 				</div>
-				<!-- Buttons -->
-				<div class="flex items-center gap-2">
+				<!-- Desktop Buttons -->
+				<div class="hidden sm:flex items-center gap-2">
 					<Button
 						variant="outline"
 						size="sm"
@@ -171,8 +175,30 @@
 						</PopoverContent>
 					</Popover>
 				</div>
+				<!-- Mobile Menu Button -->
+				<div class="sm:hidden">
+					<Button
+						variant="outline"
+						size="sm"
+						onclick={() => (sidebarOpen = true)}
+						class="flex items-center gap-1"
+					>
+						<UserIcon class="size-4" />
+						Menu
+					</Button>
+				</div>
 			</div>
 		</header>
+
+		<!-- Mobile Sidebar -->
+		<SidebarSheet
+			open={sidebarOpen}
+			onOpenChange={(open) => (sidebarOpen = open)}
+			{email}
+			{name}
+			onNewConversation={startNewConversation}
+			onLogout={logout}
+		/>
 
 		<!-- Chat Messages Container -->
 		<Conversation class="flex-1">

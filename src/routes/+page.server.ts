@@ -7,7 +7,15 @@ export const load: PageServerLoad = async ({ cookies, locals }) => {
 	if (userId) {
 		locals.userId = userId;
 		const conv = await getConversation(userId);
-		return { conversation: (conv?.chat as UIMessage[]) || [] };
+		return {
+			conversation: (conv?.chat as UIMessage[]) || [],
+			email: cookies.get('email') || '',
+			name: cookies.get('name') || ''
+		};
 	}
-	return { conversation: [] as UIMessage[] };
+	return {
+		conversation: [] as UIMessage[],
+		email: '',
+		name: ''
+	};
 };

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { cn } from "$lib/utils";
-	import { Button } from "$lib/components/ui/button";
-	import * as Tooltip from "$lib/components/ui/tooltip/index.js";
-	import { getAttachmentsContext, type FileWithId } from "./attachments-context.svelte.js";
-	import PaperclipIcon from "./PaperclipIcon.svelte";
-	import XIcon from "./XIcon.svelte";
+	import { cn } from '$lib/utils';
+	import { Button } from '$lib/components/ui/button';
+	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
+	import { getAttachmentsContext, type FileWithId } from './attachments-context.svelte.js';
+	import PaperclipIcon from './PaperclipIcon.svelte';
+	import XIcon from './XIcon.svelte';
 
 	interface Props {
 		data: FileWithId;
@@ -15,20 +15,20 @@
 
 	let attachments = getAttachmentsContext();
 
-	let mediaType = $derived(data.mediaType?.startsWith("image/") && data.url ? "image" : "file");
+	let mediaType = $derived(data.mediaType?.startsWith('image/') && data.url ? 'image' : 'file');
 </script>
 
 <div
 	class={cn(
-		"group relative rounded-md border",
-		mediaType === "image" ? "h-14 w-14" : "h-8 w-auto max-w-full",
+		'group relative rounded-md border',
+		mediaType === 'image' ? 'h-14 w-14' : 'h-8 w-auto max-w-full',
 		className
 	)}
 	{...props}
 >
-	{#if mediaType === "image"}
+	{#if mediaType === 'image'}
 		<img
-			alt={data.filename || "attachment"}
+			alt={data.filename || 'attachment'}
 			class="size-full rounded-md object-cover"
 			height={56}
 			src={data.url}
@@ -42,7 +42,7 @@
 			<Tooltip.Root delayDuration={400}>
 				<Tooltip.Trigger class="min-w-0 flex-1">
 					<h4 class="w-full truncate text-left text-sm font-medium">
-						{data.filename || "Unknown file"}
+						{data.filename || 'Unknown file'}
 					</h4>
 				</Tooltip.Trigger>
 				<Tooltip.Content>
@@ -50,7 +50,7 @@
 						<h4
 							class="max-w-[240px] overflow-hidden text-left text-sm font-semibold break-words whitespace-normal"
 						>
-							{data.filename || "Unknown file"}
+							{data.filename || 'Unknown file'}
 						</h4>
 						{#if data.mediaType}
 							<div>{data.mediaType}</div>

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { cn } from "$lib/utils";
-	import { watch } from "runed";
-	import { getAttachmentsContext, type FileWithId } from "./attachments-context.svelte.js";
+	import { cn } from '$lib/utils';
+	import { watch } from 'runed';
+	import { getAttachmentsContext, type FileWithId } from './attachments-context.svelte.js';
 
 	interface Props {
 		class?: string;
-		children?: import("svelte").Snippet<[FileWithId]>;
+		children?: import('svelte').Snippet<[FileWithId]>;
 	}
 
 	let { class: className, children, ...props }: Props = $props();
@@ -16,11 +16,11 @@
 
 	// Separate files and images for grouped rendering
 	let nonImageFiles = $derived(
-		attachments.files.filter((f) => !(f.mediaType?.startsWith("image/") && f.url))
+		attachments.files.filter((f) => !(f.mediaType?.startsWith('image/') && f.url))
 	);
 
 	let imageFiles = $derived(
-		attachments.files.filter((f) => f.mediaType?.startsWith("image/") && f.url)
+		attachments.files.filter((f) => f.mediaType?.startsWith('image/') && f.url)
 	);
 
 	// Watch for resize changes using ResizeObserver
@@ -49,7 +49,7 @@
 
 <div
 	aria-live="polite"
-	class={cn("overflow-hidden transition-[height] duration-200 ease-out", className)}
+	class={cn('overflow-hidden transition-[height] duration-200 ease-out', className)}
 	style:height="{computedHeight}px"
 	{...props}
 >

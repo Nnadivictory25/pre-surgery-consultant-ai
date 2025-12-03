@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { getAttachmentsContext } from "./attachments-context.svelte.js";
-	import PromptInputActionMenuItem from "./PromptInputActionMenuItem.svelte";
-	import ImageIcon from "./ImageIcon.svelte";
+	import { getAttachmentsContext } from './attachments-context.svelte.js';
+	import PromptInputActionMenuItem from './PromptInputActionMenuItem.svelte';
+	import ImageIcon from './ImageIcon.svelte';
 
 	interface Props {
 		label?: string;
 		class?: string;
 	}
 
-	let { label = "Add photos or files", class: className, ...props }: Props = $props();
+	let { label = 'Add photos or files', class: className, ...props }: Props = $props();
 
 	let attachments = getAttachmentsContext();
 

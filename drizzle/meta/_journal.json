@@ -8,6 +8,13 @@
       "when": 1764699747937,
       "tag": "0000_black_demogoblin",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1764769706347,
+      "tag": "0001_serious_proudstar",
+      "breakpoints": true
     }
   ]
 }

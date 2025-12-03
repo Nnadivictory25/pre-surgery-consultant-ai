@@ -29,3 +29,9 @@ export const conversation = sqliteTable(
 	},
 	(table) => [uniqueIndex('user_id_index').on(table.userId)]
 );
+
+export const users = sqliteTable('users', {
+	userId: text('user_id').primaryKey(),
+	email: text('email').notNull(),
+	name: text('name').notNull()
+});

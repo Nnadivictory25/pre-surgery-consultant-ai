@@ -1,7 +1,7 @@
-import { setContext, getContext } from "svelte";
+import { setContext, getContext } from 'svelte';
 
 export interface FileUIPart {
-	type: "file";
+	type: 'file';
 	url?: string;
 	mediaType?: string;
 	filename?: string;
@@ -16,7 +16,7 @@ export interface PromptInputMessage {
 	files?: FileUIPart[];
 }
 
-export type ChatStatus = "submitted" | "streaming" | "error" | "idle";
+export type ChatStatus = 'submitted' | 'streaming' | 'error' | 'idle';
 
 export class AttachmentsContext {
 	files = $state<FileWithId[]>([]);
@@ -28,7 +28,7 @@ export class AttachmentsContext {
 		private maxFiles?: number,
 		private maxFileSize?: number,
 		private onError?: (err: {
-			code: "max_files" | "max_file_size" | "accept";
+			code: 'max_files' | 'max_file_size' | 'accept';
 			message: string;
 		}) => void
 	) {}
@@ -38,11 +38,11 @@ export class AttachmentsContext {
 	};
 
 	matchesAccept = (file: File): boolean => {
-		if (!this.accept || this.accept.trim() === "") {
+		if (!this.accept || this.accept.trim() === '') {
 			return true;
 		}
-		if (this.accept.includes("image/*")) {
-			return file.type.startsWith("image/");
+		if (this.accept.includes('image/*')) {
+			return file.type.startsWith('image/');
 		}
 		return true;
 	};
@@ -53,8 +53,8 @@ export class AttachmentsContext {
 
 		if (accepted.length === 0) {
 			this.onError?.({
-				code: "accept",
-				message: "No files match the accepted types.",
+				code: 'accept',
+				message: 'No files match the accepted types.'
 			});
 			return;
 		}
@@ -64,22 +64,22 @@ export class AttachmentsContext {
 
 		if (sized.length === 0 && accepted.length > 0) {
 			this.onError?.({
-				code: "max_file_size",
-				message: "All files exceed the maximum size.",
+				code: 'max_file_size',
+				message: 'All files exceed the maximum size.'
 			});
 			return;
 		}
 
 		let capacity =
-			typeof this.maxFiles === "number"
+			typeof this.maxFiles === 'number'
 				? Math.max(0, this.maxFiles - this.files.length)
 				: undefined;
-		let capped = typeof capacity === "number" ? sized.slice(0, capacity) : sized;
+		let capped = typeof capacity === 'number' ? sized.slice(0, capacity) : sized;
 
-		if (typeof capacity === "number" && sized.length > capacity) {
+		if (typeof capacity === 'number' && sized.length > capacity) {
 			this.onError?.({
-				code: "max_files",
-				message: "Too many files. Some were not added.",
+				code: 'max_files',
+				message: 'Too many files. Some were not added.'
 			});
 		}
 
@@ -87,10 +87,10 @@ export class AttachmentsContext {
 		for (let file of capped) {
 			next.push({
 				id: crypto.randomUUID(),
-				type: "file",
+				type: 'file',
 				url: URL.createObjectURL(file),
 				mediaType: file.type,
-				filename: file.name,
+				filename: file.name
 			});
 		}
 
@@ -120,14 +120,14 @@ export class AttachmentsContext {
 // ============================================================================
 
 export class TextInputController {
-	value = $state("");
+	value = $state('');
 
 	setInput = (newValue: string) => {
 		this.value = newValue;
 	};
 
 	clear = () => {
-		this.value = "";
+		this.value = '';
 	};
 }
 
@@ -135,15 +135,15 @@ export class PromptInputController {
 	textInput: TextInputController;
 	attachments: AttachmentsContext;
 
-	constructor(initialInput = "", accept?: string, multiple?: boolean) {
+	constructor(initialInput = '', accept?: string, multiple?: boolean) {
 		this.textInput = new TextInputController();
 		this.textInput.value = initialInput;
 		this.attachments = new AttachmentsContext(accept, multiple);
 	}
 }
 
-const ATTACHMENTS_CONTEXT_KEY = Symbol("attachments");
-const PROVIDER_CONTEXT_KEY = Symbol("prompt-input-provider");
+const ATTACHMENTS_CONTEXT_KEY = Symbol('attachments');
+const PROVIDER_CONTEXT_KEY = Symbol('prompt-input-provider');
 
 export function setAttachmentsContext(context: AttachmentsContext) {
 	setContext(ATTACHMENTS_CONTEXT_KEY, context);
@@ -152,7 +152,7 @@ export function setAttachmentsContext(context: AttachmentsContext) {
 export function getAttachmentsContext(): AttachmentsContext {
 	let context = getContext<AttachmentsContext>(ATTACHMENTS_CONTEXT_KEY);
 	if (!context) {
-		throw new Error("usePromptInputAttachments must be used within a PromptInput");
+		throw new Error('usePromptInputAttachments must be used within a PromptInput');
 	}
 	return context;
 }
@@ -169,7 +169,7 @@ export function getPromptInputProvider(): PromptInputController | null {
 export function getPromptInputController(): PromptInputController {
 	let context = getContext<PromptInputController>(PROVIDER_CONTEXT_KEY);
 	if (!context) {
-		throw new Error("getPromptInputController must be used within a PromptInputProvider");
+		throw new Error('getPromptInputController must be used within a PromptInputProvider');
 	}
 	return context;
 }

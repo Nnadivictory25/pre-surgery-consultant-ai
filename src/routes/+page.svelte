@@ -34,6 +34,13 @@
 	let email = $state(data.email || '');
 	let name = $state(data.name || '');
 
+	const suggestions = [
+		{ text: 'What should I eat the day before my surgery?' },
+		{ text: 'What medications should I avoid before surgery?' },
+		{ text: 'How should I prepare my home for post-surgery recovery?' },
+		{ text: 'What questions should I ask my surgeon before the procedure?' }
+	];
+
 	let input_prompt = $state('');
 	let chat = $derived(new Chat({ messages: data.conversation }));
 	let status = $state<ChatStatus>('idle');
@@ -184,7 +191,7 @@
 									Not sure what to ask? Try these suggestions:
 								</p>
 								<div class="space-y-3">
-									{#each suggestions as suggestion}
+									{#each suggestions as suggestion, (i)}
 										<Button
 											variant="outline"
 											size="default"

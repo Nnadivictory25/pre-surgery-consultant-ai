@@ -191,7 +191,7 @@
 									Not sure what to ask? Try these suggestions:
 								</p>
 								<div class="space-y-3">
-									{#each suggestions as suggestion, (i)}
+									{#each suggestions as suggestion, index (index)}
 										<Button
 											variant="outline"
 											size="default"

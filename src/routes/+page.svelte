@@ -125,11 +125,12 @@
 		<!-- Header -->
 		<header class="bg-background border-b border-border px-4 sm:px-6 h-16 shadow-sm">
 			<div class="max-w-4xl mx-auto flex items-center justify-between h-full">
-				<div class="flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-0">
-					<h1 class="text-lg sm:text-xl font-semibold text-foreground text-center sm:text-left">
+				<!-- Title and Description -->
+				<div class="flex flex-col items-center sm:items-start text-center sm:text-left">
+					<h1 class="text-lg sm:text-xl font-semibold text-foreground">
 						Pre-Surgery Consultant AI
 					</h1>
-					<p class="text-xs text-muted-foreground text-center sm:text-left hidden sm:block">
+					<p class="text-xs text-muted-foreground hidden sm:block">
 						Get personalized advice for your pre-surgery consultation.
 					</p>
 				</div>

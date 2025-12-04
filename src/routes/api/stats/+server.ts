@@ -32,10 +32,15 @@ export const GET = async ({ cookies }: RequestEvent) => {
     const positivePercentage = totalRatings > 0 ? (positiveRatings / totalRatings) * 100 : 0;
     const negativePercentage = totalRatings > 0 ? (negativeRatings / totalRatings) * 100 : 0;
 
+    // Convert average duration to minutes
+    const avgDurationSeconds = Math.round(Number(sessionStats[0]?.avgDuration) || 0);
+    const avgDurationMinutes = Math.round((avgDurationSeconds / 60) * 10) / 10; // Round to 1 decimal
+
     return json({
         sessions: {
             total: sessionStats[0]?.totalSessions || 0,
-            averageDurationSeconds: Math.round(Number(sessionStats[0]?.avgDuration) || 0)
+            averageDurationMinutes: avgDurationMinutes,
+            averageDurationSeconds: avgDurationSeconds
         },
         ratings: {
             total: totalRatings,

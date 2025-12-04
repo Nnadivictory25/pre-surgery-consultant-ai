@@ -35,3 +35,27 @@ export const users = sqliteTable('users', {
 	email: text('email').notNull(),
 	name: text('name').notNull()
 });
+
+// Session timing table
+export const sessions = sqliteTable('sessions', {
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
+	userId: text('user_id').notNull(),
+	startTime: integer('start_time').$defaultFn(() => Date.now()),
+	endTime: integer('end_time'),
+	durationSeconds: integer('duration_seconds')
+});
+
+// Message ratings table for accuracy measurement
+export const messageRatings = sqliteTable('message_ratings', {
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
+	userId: text('user_id').notNull(),
+	sessionId: text('session_id').notNull(),
+	messageIndex: integer('message_index').notNull(),
+	messageContent: text('message_content').notNull(),
+	rating: integer('rating').notNull(), // 1 for thumbs up, -1 for thumbs down
+	createdAt: integer('created_at').$defaultFn(() => Date.now())
+});

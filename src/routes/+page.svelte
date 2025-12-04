@@ -1,6 +1,15 @@
 <script lang="ts">
 	import { Chat } from '@ai-sdk/svelte';
-	import { ClipboardIcon, RefreshCcwIcon, PlusIcon, UserIcon, LogOutIcon } from '@lucide/svelte';
+	import { DefaultChatTransport } from 'ai';
+	import {
+		ClipboardIcon,
+		RefreshCcwIcon,
+		PlusIcon,
+		UserIcon,
+		LogOutIcon,
+		ThumbsUpIcon,
+		ThumbsDownIcon
+	} from '@lucide/svelte';
 	import { watch } from 'runed';
 	import { Message, MessageContent } from '$lib/components/ai-elements/message/index.js';
 	import { Action, Actions } from '$lib/components/ai-elements/action/index.js';
@@ -20,7 +29,7 @@
 		type ChatStatus,
 		type PromptInputMessage
 	} from '$lib/components/ai-elements/prompt-input/index.js';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -32,9 +41,11 @@
 	let userId = $state<string>('');
 	let loggedIn = $state(false);
 	let loading = $state(true);
-	let email = $state(data.email || '');
-	let name = $state(data.name || '');
+	let email = $derived(data.email || '');
+	let name = $derived(data.name || '');
 	let sidebarOpen = $state(false);
+	let sessionId = $state<string>('');
+	let messageRatings = $state<Record<number, 1 | -1>>({}); // messageIndex -> rating
 
 	const suggestions = [
 		{ text: 'What should I eat the day before my surgery?' },
@@ -44,7 +55,15 @@
 	];
 
 	let input_prompt = $state('');
-	let chat = $derived(new Chat({ messages: data.conversation }));
+	let chat = $derived(
+		new Chat({
+			messages: data.conversation,
+			transport: new DefaultChatTransport({
+				api: '/api/chat',
+				body: { sessionId }
+			})
+		})
+	);
 	let status = $state<ChatStatus>('idle');
 
 	let handleSubmit = (message: PromptInputMessage, event: SubmitEvent) => {
@@ -64,13 +83,42 @@
 		navigator.clipboard.writeText(message);
 	};
 
+	async function rateMessage(messageIndex: number, messageContent: string, rating: 1 | -1) {
+		if (!sessionId) return;
+
+		try {
+			await fetch('/api/feedback/rate', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ sessionId, messageIndex, messageContent, rating })
+			});
+			messageRatings[messageIndex] = rating;
+		} catch (error) {
+			console.error('Failed to submit rating:', error);
+		}
+	}
+
 	function startNewConversation() {
 		// Reset chat to a fresh instance, effectively starting a new chat
 		chat = new Chat({});
 		input_prompt = '';
+		messageRatings = {};
 	}
 
-	function logout() {
+	async function logout() {
+		// End session before logout
+		if (sessionId) {
+			try {
+				await fetch('/api/session/end', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ sessionId })
+				});
+			} catch (error) {
+				console.error('Failed to end session:', error);
+			}
+		}
+
 		document.cookie = 'userId=; path=/; max-age=0';
 		document.cookie = 'email=; path=/; max-age=0';
 		document.cookie = 'name=; path=/; max-age=0';
@@ -111,10 +159,37 @@
 		const { loggedIn: isLoggedIn } = await response.json();
 		if (isLoggedIn) {
 			loggedIn = true;
+
+			// Start a new session
+			try {
+				const sessionResponse = await fetch('/api/session/start', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' }
+				});
+				const sessionData = await sessionResponse.json();
+				sessionId = sessionData.sessionId;
+			} catch (error) {
+				console.error('Failed to start session:', error);
+			}
 		} else {
 			goto('/login');
 		}
 		loading = false;
+	});
+
+	onDestroy(async () => {
+		// End session when component is destroyed
+		if (sessionId) {
+			try {
+				await fetch('/api/session/end', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ sessionId })
+				});
+			} catch (error) {
+				console.error('Failed to end session:', error);
+			}
+		}
 	});
 </script>
 
@@ -273,6 +348,37 @@
 											}}
 										>
 											<ClipboardIcon class="size-4" />
+										</Action>
+										<!-- Thumbs Up/Down Rating -->
+										<Action
+											label="Thumbs Up"
+											tooltip="Good response"
+											onclick={() => {
+												const messageText = message.parts
+													.map((p) => (p.type === 'text' ? p.text : ''))
+													.join('');
+												rateMessage(messageIndex, messageText, 1);
+											}}
+											class={messageRatings[messageIndex] === 1
+												? 'text-green-600 dark:text-green-400'
+												: ''}
+										>
+											<ThumbsUpIcon class="size-4" />
+										</Action>
+										<Action
+											label="Thumbs Down"
+											tooltip="Poor response"
+											onclick={() => {
+												const messageText = message.parts
+													.map((p) => (p.type === 'text' ? p.text : ''))
+													.join('');
+												rateMessage(messageIndex, messageText, -1);
+											}}
+											class={messageRatings[messageIndex] === -1
+												? 'text-red-600 dark:text-red-400'
+												: ''}
+										>
+											<ThumbsDownIcon class="size-4" />
 										</Action>
 									</Actions>
 								{/if}

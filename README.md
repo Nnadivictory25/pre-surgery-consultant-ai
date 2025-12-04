@@ -9,96 +9,50 @@ An AI-powered pre-surgery consultation platform built with SvelteKit and Bun, pr
 - **Medical Knowledge Base**: Comprehensive information about surgical procedures
 - **Patient Support**: Personalized recommendations and preparation guidance
 - **Modern UI**: Clean, responsive design built with Tailwind CSS
+An intelligent healthcare assistant that helps patients prepare for surgery through personalized consultations.
 
-## Tech Stack
+## ✨ Features
 
-- **Frontend**: SvelteKit 5 with Svelte 5
-- **Runtime**: Bun (JavaScript runtime)
-- **Database**: SQLite with Drizzle ORM
-- **AI**: OpenRouter AI SDK with multiple model support
-- **Styling**: Tailwind CSS v4
-- **UI Components**: ShadCn UI with Lucide icons
-- **Deployment**: Docker with svelte-adapter-bun deployed on Dokploy
+### Core Functionality
+- **AI-Powered Consultations** - Get personalized pre-surgery guidance
+- **Real-time Chat Interface** - Interactive conversations with AI assistant
+- **User Authentication** - Secure user identification with FingerprintJS
+- **Conversation History** - Persistent chat sessions
 
-## Prerequisites
+### Advanced Analytics
+- **📊 Session Timing** - Automatic tracking of consultation duration
+- **👍👎 Accuracy Measurement** - Real-time feedback with thumbs up/down ratings
+- **🤖 AI-Powered Session Management** - Intelligent session termination
+- **📈 Analytics Dashboard** - Session and quality statistics
 
-- Bun 1.3.1 or higher
-- Node.js (for some tooling)
-- Docker (optional, for containerized deployment)
+## 🚀 Getting Started
 
-## Getting Started
+### Prerequisites
+- [Bun](https://bun.sh/) runtime
+- OpenRouter API key
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/Nnadivictory25/pre-surgery-consultant-ai.git
 cd pre-surgery-consultant-ai
 
 # Install dependencies
 bun install
-```
 
-### Environment Setup
+# Create .env file
+cp .env.example .env
 
-Create a `.env` file in the root directory:
+# Add your OpenRouter API key to .env
+OPENROUTER_API_KEY=your_api_key_here
 
-```env
-DATABASE_URL=./database.sqlite
-OPENROUTER_API_KEY=your_openrouter_api_key
-```
-
-### Database Setup
-
-```bash
 # Run database migrations
+bun run db:gen
 bun run db:migrate
 
-# Optional: Open Drizzle Studio for database management
-bun run db:studio
-```
-
-### Development
-
-```bash
 # Start development server
 bun run dev
-
-# Start with open browser
-bun run dev -- --open
-```
-
-The application will be available at `http://localhost:5173`.
-
-## Available Scripts
-
-- `bun run dev` - Start development server
-- `bun run build` - Build for production
-- `bun run preview` - Preview production build
-- `bun run check` - Run Svelte type checking
-- `bun run format` - Format code with Prettier
-- `bun run lint` - Check code formatting
-- `bun run db:push` - Push database schema changes
-- `bun run db:gen` - Generate database migrations
-- `bun run db:migrate` - Run database migrations
-- `bun run db:studio` - Open Drizzle Studio
-
-## Docker Deployment
-
-### Build and Run
-
-```bash
-# Build the Docker image
-docker build -t pre-surgery-ai .
-
-# Run the container
-docker run -p 4173:4173 pre-surgery-ai
-```
-
-### Using Docker Compose
-
-```bash
-docker-compose up --build
 ```
 
 The application will be available at `http://localhost:4173`.

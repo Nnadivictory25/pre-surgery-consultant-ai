@@ -12,4 +12,4 @@ export function getOpenRouter() {
 }
 
 // Choose your preferred free model
-export const defaultModel = 'openai/gpt-4o-mini';
+export const defaultModel = 'x-ai/grok-4-fast';

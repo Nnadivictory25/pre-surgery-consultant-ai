@@ -12,4 +12,4 @@ export function getOpenRouter() {
 }
 
 // Choose your preferred free model
-export const defaultModel = 'x-ai/grok-4.1-fast';
+export const defaultModel = 'google/gemini-2.5-flash';

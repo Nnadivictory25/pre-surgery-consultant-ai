@@ -334,7 +334,7 @@
 
 								<!-- Retry and Copy Actions for Assistant Messages -->
 								{#if message.role === 'assistant'}
-									<Actions class="opacity-0 group-hover:opacity-100 transition-opacity">
+									<Actions class="md:opacity-0 md:group-hover:opacity-100 transition-opacity">
 										<Action label="Retry" tooltip="Retry" onclick={retryMessage}>
 											<RefreshCcwIcon class="size-4" />
 										</Action>

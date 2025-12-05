@@ -12,4 +12,4 @@ export function getOpenRouter() {
 }
 
 // Choose your preferred free model
-export const defaultModel = 'google/gemini-2.5-flash';
+export const defaultModel = 'mistralai/ministral-8b-2512';

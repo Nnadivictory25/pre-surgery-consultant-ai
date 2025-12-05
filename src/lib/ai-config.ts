@@ -12,4 +12,4 @@ export function getOpenRouter() {
 }
 
 // Choose your preferred free model
-export const defaultModel = 'mistralai/ministral-8b-2512';
+export const defaultModel = 'anthropic/claude-sonnet-4.5';
